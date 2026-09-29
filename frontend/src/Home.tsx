@@ -18,13 +18,21 @@ function Home() {
     blues: [],
     yellows: []
   })
-  const [blueVests, setBlueVests] = useState<number>(1)
-  const [yellowVests, setYellowVests] = useState<number>(1)
+  const [blueVests, setBlueVests] = useState<number>(Number(localStorage.getItem("blueVests") || 1))
+  const [yellowVests, setYellowVests] = useState<number>(Number(localStorage.getItem("yellowVests") || 1))
   const [blacklist, setBlacklist] = useState(localStorage.getItem("blacklist") || "")
 
   useEffect(() => {
     localStorage.setItem("blacklist", blacklist)
   }, [blacklist])
+
+  useEffect(() => {
+    localStorage.setItem("blueVests", String(blueVests))
+  }, [blueVests])
+
+  useEffect(() => {
+    localStorage.setItem("yellowVests", String(yellowVests))
+  }, [yellowVests])
 
   async function fetchBuild() {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/build`, {
