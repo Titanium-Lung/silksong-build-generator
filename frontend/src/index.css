@@ -6,6 +6,12 @@ p {
   font-size: 14pt;
 }
 
+.navbar-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+
 label {
   font-size: 14pt;
 }
