@@ -50,7 +50,7 @@ func RandomBuild(c *gin.Context) {
 	})
 	blacklist := mapset.NewSet[string]()
 	for _, str := range blacklistStrs {
-		blacklist.Add(strings.ToLower(str))
+		blacklist.Add(strings.TrimSpace(strings.ToLower(str)))
 	}
 
 	filteredCrests := make(map[string]Crest)
