@@ -9,3 +9,7 @@ p {
 label {
   font-size: 14pt;
 }
+
+.border {
+  border: 0.1vw solid lightgray !important;
+}

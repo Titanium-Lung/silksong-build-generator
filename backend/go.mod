@@ -3,6 +3,7 @@ module github.com/Titanium-Lung/silksong-build-generator
 go 1.27.1
 
 require (
+	github.com/deckarep/golang-set/v3 v3.0.0
 	github.com/gin-contrib/cors v1.7.9
 	github.com/gin-gonic/gin v1.12.0
 )
