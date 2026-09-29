@@ -45,7 +45,9 @@ func RandomBuild(c *gin.Context) {
 		return
 	}
 
-	blacklistStrs := strings.Split(buildConfig.Blacklist, "\n")
+	blacklistStrs := strings.FieldsFunc(buildConfig.Blacklist, func(r rune) bool {
+		return r == ',' || r == ';' || r == '\n'
+	})
 	blacklist := mapset.NewSet[string]()
 	for _, str := range blacklistStrs {
 		blacklist.Add(strings.ToLower(str))

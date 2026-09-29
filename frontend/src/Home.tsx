@@ -100,7 +100,7 @@ function Home() {
         }
         <hr className="border-primary" />
         <div className="form-group d-flex flex-column align-items-center">
-            <label htmlFor="blacklist">Item blacklist</label>
+            <label htmlFor="blacklist"><strong>Blacklist</strong>. Case insensitive, separate by newline or comma (spaces are important!)</label>
             <div className="border">
                 <textarea className="form-control" rows={8} value={blacklist} onChange={(e) => setBlacklist(e.target.value)} style={{ width: "40vw"}} />
             </div>
