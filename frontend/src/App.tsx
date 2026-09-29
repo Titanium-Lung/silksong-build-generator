@@ -1,6 +1,44 @@
+import { useState } from "react"
 import logo from "./assets/Hornet_Idle.png"
 
+interface Crest {
+  name: string
+  whites: [],
+  reds: []
+  blues: []
+  yellows: []
+}
+
 function App() {
+  const [crest, setCrest] = useState<Crest>({
+    name: "",
+    whites: [],
+    reds: [],
+    blues: [],
+    yellows: []
+  })
+
+  async function fetchBuild() {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/build`, {
+        method: "GET"
+    })
+
+    const result = await response.json()
+
+    if (response.ok) {
+      const newCrest: Crest = {
+        name: result.crest,
+        whites: result.tools["whites"],
+        reds: result.tools["reds"],
+        blues: result.tools["blues"],
+        yellows: result.tools["yellows"]
+      }
+
+      setCrest(newCrest)
+    } else {
+      console.log(result.error)
+    }
+  }
 
   return (
     <div>
@@ -25,7 +63,32 @@ function App() {
             </div>
         </nav>
         <h1>Silksong Build Generator</h1>
-        <p>Text here</p>
+        <button className="btn btn-success" onClick={fetchBuild}>Generate</button>
+        <br></br>
+        {
+          crest.name != "" && (
+            <div>
+              <h3>{crest.name}</h3>
+              <p><strong>Whites:</strong></p>
+              {
+                crest.whites.join(", ")
+              }
+              <p><strong>Reds:</strong></p>
+              {
+                crest.reds.join(", ")
+              }
+              <p><strong>Blues:</strong></p>
+              {
+                crest.blues.join(", ")
+              }
+              <p><strong>Yellows:</strong></p>
+              {
+                crest.yellows.join(", ")
+              }
+              {/* <p>Whites: {crest.whites}; Reds: {crest.reds}; Blues: {crest.blues}; Yellows: {crest.yellows}</p> */}
+            </div>
+          )
+        }
     </div>  
   )
 }

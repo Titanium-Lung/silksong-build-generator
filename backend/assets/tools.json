@@ -1,0 +1,10 @@
+{
+    "white":
+    ["Silkspear", "Threadstorm", "Cross Stitch", "Sharpdart", "Rune Rage", "Pale Nails"],
+    "red": 
+    ["Straight Pin", "Threefold Pin", "Sting Shard", "Tacks", "Longpin", "Curveclaw/Curvesickle", "Throwing Ring", "Pimpillo", "Conchcutter", "Silkshot", "Delver's Drill", "Cogwork Wheel", "Cogfly", "Rosary Cannon", "Voltvessels", "Flintslate", "Snare Setter", "Flea Brew", "Plasmium Phial"], 
+    "blue": 
+    ["Druid's Eye(s)", "Magma Bell", "Warding Bell", "Pollip Pouch", "Fractured Mask", "Multibinder", "Weavelight", "Sawtooth Circlet", "Injector Band", "Spool Extender", "Reserve Bind", "Claw Mirror(s)", "Memory Crystal", "Snitch Pick", "Volt Filament", "Quick Sling", "Longclaw", "Wispfire Lantern", "Egg of Flealia", "Pin Badge"], 
+    "yellow": 
+    ["Compass", "Shard Pendant", "Magnetite Brooch", "Weighted Belt", "Barbed Bracelet", "Dead Bug's Purse", "Shell Satchel", "Magnetite Dice", "Scuttlebrace", "Ascendant's Grip", "Spider Strings", "Silkspeed Anklets", "Thief's Mark"]
+}
