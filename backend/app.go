@@ -26,23 +26,43 @@ type Tools struct {
 	Yellow []string `json:"yellow"`
 }
 
+type BuildConfig struct {
+	BlueVesticrests   int `json:"blueVests"`
+	YellowVesticrests int `json:"yellowVests"`
+}
+
 var crests map[string]Crest
 var crestKeys []string
 var tools Tools
 
 func RandomBuild(c *gin.Context) {
+	var buildConfig BuildConfig
+	if err := c.ShouldBindJSON(&buildConfig); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	randomCrestNum := rand.IntN(len(crests))
 	crest := crestKeys[randomCrestNum]
 
 	crestTools := make(map[string][]string)
 
-	blueVesticrests := 1
-	yellowVesticrests := 1
+	blueVesticrests := buildConfig.BlueVesticrests
+	yellowVesticrests := buildConfig.YellowVesticrests
 
 	numWhites := crests[crest].White
 	numReds := crests[crest].Red
 	numBlues := crests[crest].Blue + blueVesticrests
 	numYellows := crests[crest].Yellow + yellowVesticrests
+
+	if numBlues > len(tools.Blue) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Too many blue vesticrests"})
+		return
+	}
+	if numYellows > len(tools.Yellow) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Too many yellow vesticrests"})
+		return
+	}
 
 	permutation := rand.Perm(len(tools.White))
 	whites := make([]string, numWhites)
@@ -112,7 +132,7 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	router.GET("/api/build", RandomBuild)
+	router.POST("/api/build", RandomBuild)
 
 	router.Run(":5001")
 }

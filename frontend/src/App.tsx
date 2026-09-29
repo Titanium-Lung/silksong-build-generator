@@ -3,7 +3,7 @@ import logo from "./assets/Hornet_Idle.png"
 
 interface Crest {
   name: string
-  whites: [],
+  whites: []
   reds: []
   blues: []
   yellows: []
@@ -17,10 +17,14 @@ function App() {
     blues: [],
     yellows: []
   })
+  const [blueVests, setBlueVests] = useState<number>(1)
+  const [yellowVests, setYellowVests] = useState<number>(1)
 
   async function fetchBuild() {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/build`, {
-        method: "GET"
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ blueVests: blueVests, yellowVests: yellowVests})
     })
 
     const result = await response.json()
@@ -64,28 +68,60 @@ function App() {
         </nav>
         <h1>Silksong Build Generator</h1>
         <button className="btn btn-success" onClick={fetchBuild}>Generate</button>
-        <br></br>
+        <div className="form-group d-flex justify-content-center align-items-center gap-4">
+          <label htmlFor="blueVests">Blue Vesticrests</label>
+          <input className="form-control" type="number" min="0" value={blueVests} onChange={(e) => setBlueVests(Number(e.target.value))} style={{ width: "60px"}} />
+          <label htmlFor="yellowVests">Yellow Vesticrests</label>
+          <input className="form-control" type="number" min="0" value={yellowVests} onChange={(e) => setYellowVests(Number(e.target.value))} style={{ width: "60px"}} />
+        </div>
         {
           crest.name != "" && (
             <div>
-              <h3>{crest.name}</h3>
-              <p><strong>Whites:</strong></p>
+              <h2>{crest.name}</h2>
               {
-                crest.whites.join(", ")
+                crest.whites.length != 0 && (
+                  <div>
+                    <p><strong>Whites: </strong>
+                    {
+                      crest.whites.join(", ")
+                    }
+                    </p>
+                  </div>
+                )
               }
-              <p><strong>Reds:</strong></p>
               {
-                crest.reds.join(", ")
+                crest.reds.length != 0 && (
+                  <div>
+                    <p><strong>Reds: </strong>
+                    {
+                      crest.reds.join(", ")
+                    }
+                    </p>
+                  </div>
+                )
               }
-              <p><strong>Blues:</strong></p>
               {
-                crest.blues.join(", ")
+                crest.blues.length != 0 && (
+                  <div>
+                    <p><strong>Blues: </strong>
+                    {
+                      crest.blues.join(", ")
+                    }
+                    </p>
+                  </div>
+                )
               }
-              <p><strong>Yellows:</strong></p>
               {
-                crest.yellows.join(", ")
+                crest.yellows.length != 0 && (
+                  <div>
+                    <p><strong>Yellows: </strong>
+                    {
+                      crest.yellows.join(", ")
+                    }
+                    </p>
+                  </div>
+                )
               }
-              {/* <p>Whites: {crest.whites}; Reds: {crest.reds}; Blues: {crest.blues}; Yellows: {crest.yellows}</p> */}
             </div>
           )
         }

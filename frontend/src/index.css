@@ -1,3 +1,11 @@
 .root {
   text-align: center;
 }
+
+p {
+  font-size: 14pt;
+}
+
+label {
+  font-size: 14pt;
+}
