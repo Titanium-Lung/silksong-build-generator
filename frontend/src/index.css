@@ -19,3 +19,13 @@ label {
 .border {
   border: 0.1vw solid lightgray !important;
 }
+
+.text-box {
+  width: 75vw;
+}
+
+@media (min-width: 900px) {
+  .text-box {
+    width: 40vw;
+  }
+}
