@@ -21,6 +21,7 @@ function Home() {
   const [blueVests, setBlueVests] = useState<number>(Number(localStorage.getItem("blueVests") || 1))
   const [yellowVests, setYellowVests] = useState<number>(Number(localStorage.getItem("yellowVests") || 1))
   const [blacklist, setBlacklist] = useState(localStorage.getItem("blacklist") || "")
+  const [error, setError] = useState("")
 
   useEffect(() => {
     localStorage.setItem("blacklist", blacklist)
@@ -52,11 +53,10 @@ function Home() {
         yellows: result.tools["yellows"]
       }
 
-      console.log(result.crest)
-
       setCrest(newCrest)
+      setError("")
     } else {
-      console.log(result.error)
+      setError(result.error)
     }
   }
 
@@ -71,6 +71,7 @@ function Home() {
           <label htmlFor="yellowVests">Yellow Vesticrests</label>
           <input className="form-control" type="number" min="0" value={yellowVests} onChange={(e) => setYellowVests(Number(e.target.value))} style={{ width: "60px"}} />
         </div>
+        <p className="text-danger">{error}</p>
         {
           crest.name != "" && (
             <div>

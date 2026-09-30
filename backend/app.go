@@ -91,6 +91,11 @@ func RandomBuild(c *gin.Context) {
 		}
 	}
 
+	if len(filteredCrests) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Blacklisted too many crests"})
+		return
+	}
+
 	randomCrestNum := rand.IntN(len(filteredCrests))
 	crest := filteredCrestKeys[randomCrestNum]
 
@@ -102,12 +107,20 @@ func RandomBuild(c *gin.Context) {
 	numBlues := filteredCrests[crest].Blue + blueVesticrests
 	numYellows := filteredCrests[crest].Yellow + yellowVesticrests
 
+	if numWhites > len(filteredTools.White) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Too many blacklisted silk skills"})
+		return
+	}
+	if numReds > len(filteredTools.Red) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Too many blacklisted red tools"})
+		return
+	}
 	if numBlues > len(filteredTools.Blue) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Too many blue vesticrests"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Too many blue vesticrests or too many blacklisted"})
 		return
 	}
 	if numYellows > len(filteredTools.Yellow) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Too many yellow vesticrests"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Too many yellow vesticrests or too many blacklisted"})
 		return
 	}
 
