@@ -21,7 +21,7 @@ type Crest struct {
 	Yellow int `json:"yellow"`
 }
 
-type Tools struct {
+type ToolList struct {
 	White  []string `json:"white"`
 	Red    []string `json:"red"`
 	Blue   []string `json:"blue"`
@@ -34,9 +34,9 @@ type BuildConfig struct {
 	Blacklist         string `json:"blacklist"`
 }
 
-var crests map[string]Crest
-var crestKeys []string
-var tools Tools
+var Crests map[string]Crest
+var CrestKeys []string
+var Tools ToolList
 
 func RandomBuild(c *gin.Context) {
 	var buildConfig BuildConfig
@@ -54,7 +54,7 @@ func RandomBuild(c *gin.Context) {
 	}
 
 	filteredCrests := make(map[string]Crest)
-	for crest, info := range crests {
+	for crest, info := range Crests {
 		if !blacklist.Contains(strings.ToLower(crest)) {
 			filteredCrests[crest] = info
 		}
@@ -65,27 +65,27 @@ func RandomBuild(c *gin.Context) {
 		filteredCrestKeys = append(filteredCrestKeys, key)
 	}
 
-	var filteredTools Tools
+	var filteredTools ToolList
 	filteredTools.White = make([]string, 0)
 	filteredTools.Red = make([]string, 0)
 	filteredTools.Blue = make([]string, 0)
 	filteredTools.Yellow = make([]string, 0)
-	for _, tool := range tools.White {
+	for _, tool := range Tools.White {
 		if !blacklist.Contains(strings.ToLower(tool)) {
 			filteredTools.White = append(filteredTools.White, tool)
 		}
 	}
-	for _, tool := range tools.Red {
+	for _, tool := range Tools.Red {
 		if !blacklist.Contains(strings.ToLower(tool)) {
 			filteredTools.Red = append(filteredTools.Red, tool)
 		}
 	}
-	for _, tool := range tools.Blue {
+	for _, tool := range Tools.Blue {
 		if !blacklist.Contains(strings.ToLower(tool)) {
 			filteredTools.Blue = append(filteredTools.Blue, tool)
 		}
 	}
-	for _, tool := range tools.Yellow {
+	for _, tool := range Tools.Yellow {
 		if !blacklist.Contains(strings.ToLower(tool)) {
 			filteredTools.Yellow = append(filteredTools.Yellow, tool)
 		}
@@ -159,11 +159,11 @@ func RandomBuild(c *gin.Context) {
 
 func GetEverything(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"crests":      crestKeys,
-		"whiteTools":  tools.White,
-		"redTools":    tools.Red,
-		"blueTools":   tools.Blue,
-		"yellowTools": tools.Yellow,
+		"crests":      CrestKeys,
+		"whiteTools":  Tools.White,
+		"redTools":    Tools.Red,
+		"blueTools":   Tools.Blue,
+		"yellowTools": Tools.Yellow,
 	})
 }
 
@@ -177,18 +177,18 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = json.Unmarshal(crestdata, &crests)
+	err = json.Unmarshal(crestdata, &Crests)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = json.Unmarshal(tooldata, &tools)
+	err = json.Unmarshal(tooldata, &Tools)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	crestKeys = make([]string, 0, len(crests))
-	for key := range crests {
-		crestKeys = append(crestKeys, key)
+	CrestKeys = make([]string, 0, len(Crests))
+	for key := range Crests {
+		CrestKeys = append(CrestKeys, key)
 	}
 
 	router := gin.Default()
